@@ -1,0 +1,9 @@
+django
+djangorestframework
+requests
+PyJWT
+pytest 
+pytest-django 
+requests-mock
+pytest-cov
+django-cors-headers
