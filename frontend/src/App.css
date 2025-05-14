@@ -1,0 +1,11 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    margin: 0;
+    overflow-x: hidden;
+  }

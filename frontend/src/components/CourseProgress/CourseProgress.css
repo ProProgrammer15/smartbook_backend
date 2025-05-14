@@ -1,0 +1,55 @@
+.container {
+    margin-top: 30px;
+    min-height: 50vh;
+  }
+
+.course-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .course-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+  }
+  
+  .course-card .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .progress-bar {
+    height: 20px;
+    border-radius: 5px;
+  }
+  
+  .alert {
+    margin-top: 20px;
+    font-weight: 500;
+  }
+  
+  .modal-body form {
+    margin-top: 20px;
+  }
+
+.create-btn {
+    width: 13%;
+    margin-bottom: 20px;
+    right: 0;
+}
+
+  .btn-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }  
+
+  .btn-form {
+    margin-left: 5px;
+  }
