@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Card, ProgressBar, Container, Row, Col, Alert, Button, Modal, Form } from "react-bootstrap";
-import './CourseProgress.css';
+import {
+  Card,
+  ProgressBar,
+  Container,
+  Row,
+  Col,
+  Alert,
+  Button,
+  Modal,
+  Form,
+} from "react-bootstrap";
+import "./CourseProgress.css";
 
 const CourseProgress = () => {
   const [courses, setCourses] = useState([]);
@@ -17,12 +27,15 @@ const CourseProgress = () => {
   useEffect(() => {
     const fetchCourseProgress = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/course/book-list/", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        });
+        const response = await fetch(
+          "http://localhost:8000/api/course/book-list/",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
 
         const data = await response.json();
 
@@ -46,23 +59,30 @@ const CourseProgress = () => {
 
   const handleProgressUpdate = async (e) => {
     e.preventDefault();
-    
-    if (isNaN(updatedProgress) || updatedProgress < 0 || updatedProgress > 100) {
+
+    if (
+      isNaN(updatedProgress) ||
+      updatedProgress < 0 ||
+      updatedProgress > 100
+    ) {
       setError("Please enter a valid percentage (0-100).");
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/course/progress/${selectedCourse.id}/`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          percent_completed: updatedProgress,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/course/progress/${selectedCourse.id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            percent_completed: updatedProgress,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -72,7 +92,9 @@ const CourseProgress = () => {
 
       setCourses((prevCourses) =>
         prevCourses.map((course) =>
-          course.id === selectedCourse.id ? { ...course, progress: updatedProgress } : course
+          course.id === selectedCourse.id
+            ? { ...course, progress: updatedProgress }
+            : course
         )
       );
 
@@ -85,12 +107,15 @@ const CourseProgress = () => {
 
   const handleDeleteCourse = async (courseId) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/course/progress/${courseId}/`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/course/progress/${courseId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         const data = await response.json();
@@ -107,14 +132,17 @@ const CourseProgress = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/api/course/book-list/", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCourse),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/course/book-list/",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newCourse),
+        }
+      );
 
       const data = await response.json();
 
@@ -122,12 +150,15 @@ const CourseProgress = () => {
         throw new Error(data.message || "Failed to create course.");
       }
 
-      const courseResponse = await fetch("http://localhost:8000/api/course/book-list/", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const courseResponse = await fetch(
+        "http://localhost:8000/api/course/book-list/",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
       const courseData = await courseResponse.json();
 
@@ -135,7 +166,7 @@ const CourseProgress = () => {
         throw new Error(courseData.message || "Failed to fetch courses.");
       }
 
-      setCourses(courseData);
+      setCourses(courseData?.results);
 
       setNewCourse({
         course_name: "",
@@ -153,9 +184,13 @@ const CourseProgress = () => {
       <h2 className="text-center mb-4">Courses Progress</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Row className="btn-row">
-      <Button variant="primary" onClick={() => setShowCreateModal(true)} className="create-btn">
-        Create New Course
-      </Button>
+        <Button
+          variant="primary"
+          onClick={() => setShowCreateModal(true)}
+          className="create-btn"
+        >
+          Create New Course
+        </Button>
       </Row>
       <Row>
         {courses.length > 0 ? (
@@ -170,11 +205,22 @@ const CourseProgress = () => {
                     animated
                     variant="success"
                   />
-                  <p>Last Updated: {new Date(course.last_updated).toLocaleString()}</p>
-                  <Button className="btn-form" onClick={() => handleOpenModal(course)} variant="warning">
+                  <p>
+                    Last Updated:{" "}
+                    {new Date(course.last_updated).toLocaleString()}
+                  </p>
+                  <Button
+                    className="btn-form"
+                    onClick={() => handleOpenModal(course)}
+                    variant="warning"
+                  >
                     Update Progress
                   </Button>
-                  <Button className="ml-2 btn-form" onClick={() => handleDeleteCourse(course.id)} variant="danger">
+                  <Button
+                    className="ml-2 btn-form"
+                    onClick={() => handleDeleteCourse(course.id)}
+                    variant="danger"
+                  >
                     Delete Course
                   </Button>
                 </Card.Body>
@@ -193,7 +239,11 @@ const CourseProgress = () => {
           <Form onSubmit={handleProgressUpdate}>
             <Form.Group className="mb-3" controlId="formProgress">
               <Form.Label>Course Name (Read Only)</Form.Label>
-              <Form.Control type="text" value={selectedCourse?.course_name} readOnly />
+              <Form.Control
+                type="text"
+                value={selectedCourse?.course_name}
+                readOnly
+              />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formProgressPercentage">
               <Form.Label>Progress Percentage</Form.Label>
@@ -213,7 +263,7 @@ const CourseProgress = () => {
           </Form>
         </Modal.Body>
       </Modal>
-      
+
       <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Course</Modal.Title>
@@ -226,7 +276,9 @@ const CourseProgress = () => {
                 type="text"
                 placeholder="Enter course name"
                 value={newCourse.course_name}
-                onChange={(e) => setNewCourse({ ...newCourse, course_name: e.target.value })}
+                onChange={(e) =>
+                  setNewCourse({ ...newCourse, course_name: e.target.value })
+                }
                 required
               />
             </Form.Group>
@@ -238,7 +290,12 @@ const CourseProgress = () => {
                 max="100"
                 step="0.1"
                 value={newCourse.percent_completed}
-                onChange={(e) => setNewCourse({ ...newCourse, percent_completed: e.target.value })}
+                onChange={(e) =>
+                  setNewCourse({
+                    ...newCourse,
+                    percent_completed: e.target.value,
+                  })
+                }
                 required
               />
             </Form.Group>
