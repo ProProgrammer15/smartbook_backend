@@ -63,7 +63,7 @@ class BookRecommendations(generics.ListAPIView):
         for kw in keywords:
             try:
                 res = requests.get(
-                    f"https://openlibrary.org/search.json?q={kw}&limit=2", timeout=10
+                    f"https://openlibrary.org/search.json?q={kw}&limit=2", timeout=30
                 )
                 if res.status_code == 200:
                     docs = res.json().get("docs", [])
