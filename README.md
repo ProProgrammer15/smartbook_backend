@@ -35,4 +35,6 @@ docker-compose run web pytest
 
 # Demo
 
+File name: Smartbook_recommendation.mov
+
 <video controls src="Smartbook_recommendation.mov" title="Title"></video>
