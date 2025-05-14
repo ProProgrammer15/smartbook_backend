@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: smartbook_db
+      POSTGRES_USER: smartbook_user
+      POSTGRES_PASSWORD: smartbook_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+      DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1 [::1]"
+      DATABASE_URL: "postgres://smartbook_user:smartbook_pass@db:5432/smartbook_db"
+
+  frontend:
+    image: smartbook-frontend
+    container_name: smartbook-frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend-app  
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
